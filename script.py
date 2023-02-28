@@ -51,7 +51,6 @@ to_replace = dict.fromkeys(words[0:50] + ["(?i)\\*", "(?i)https:\\/\\/", "(?i)ht
 
 data['title_description'] = \
     data['title_description'].replace(to_replace, regex=True)
-pd.DataFrame(' '.join(data.title_description).split()).value_counts().to_csv("WORDCOUNTS.csv")
 
 ## ----------------------------------------------------------------------
 # find FULL DUPLICATES based on title and description
@@ -86,12 +85,11 @@ unique_data.replace(" the ", " ", regex=True, inplace=True)
 semantic_data = unique_data.head(10)
 strings_to_compare = semantic_data['title_description'].values.tolist()
 
-####### TODO: remove this -- only used for evaluating the effects of replace
-semantic_data.to_csv("DELETE_THIS.csv")
-
 # load from local pickle file with embeddings, and if it doesn't exist then create one for future use
 rows = len(semantic_data)
 embedding = load_or_store_pickle_files(strings_to_compare, rows) if rows != len(unique_data) else load_or_store_pickle_files(strings_to_compare)
+
+pd.DataFrame(embedding).to_csv("embeddings_test.csv")
 
 # create the cos_sim_scores for every possible pair of the submitted encodings in embedding variable
 cos_sim_scores = pd.DataFrame(util.cos_sim(embedding, embedding).numpy())
@@ -99,7 +97,7 @@ cos_sim_scores.to_csv("cos_sim_scores.csv")
 
 
 # create scores for paraphrase_mining for every possible pair of the submitted encodings in embedding variable
-para_mining_scores = pd.DataFrame(util.paraphrase_mining(transformer, semantic_data, top_k=5))
+para_mining_scores = pd.DataFrame(util.paraphrase_mining(transformer, strings_to_compare, top_k=5))
 para_mining_scores.to_csv("para_mining_scores.csv")
 
 

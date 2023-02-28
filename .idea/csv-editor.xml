@@ -38,6 +38,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\para_mining_scores.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\similarities.csv">
           <value>
             <Attribute>
