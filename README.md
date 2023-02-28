@@ -1,5 +1,13 @@
 # EU_Deduplication_Challenge
- 
+IDEAS:
+1) If we can fix the cos_sim_scores from sentence-transformer and balance for length somehow, we may be on to something. When testing on sentences of similar length, in diff languages, it is able to estimate similarities.
+2) Translating all the data to a common language -- I am not sure translating is the right path because of the hours it'll take to run the script. When the evaluators run the script on the test data, it may take too long to be feasible. It also says in the competition description the importance of being able to manage crosslingual data.
+   - If we are able to translate them all, can we then create vectors of word counts / frequencies to compare job titles + descriptions?
+3) Are there different models / encoding we should be trying?
+   - XLM Roberta (tried, maybe not properly), BERT, Text2Text
+4) Tried / trying to remove frequent/meaningless words to see how performance changes and to see if it reduces the bias towards longer sentences, which will naturally have more of the frequent/meaningless words.
+
+INSTALLATION:
 1) Download the data (available from the competition website in 'Participate') -- it is called wi_dataset.csv. Save it to the same folder as the script.
 
 2) Install all required packages based on the imports at the top of the code.
@@ -11,6 +19,4 @@
 - duplicates -- format and file for the output of duplicates from the code that we will submit to the competition
 - lang_detects -- identified language for every observation, stored locally to not have to re-run it each time
 - similarities -- test run of 10 obs adding 500 "." to each description to balance for length... Didn't work. Last columns are the similarity scores and the index for each score, across languages.
-- test_output -- same as similarities, but for 100 observations. Longer texts naturally have higher scores...
-
-5) If we can fix the cos_sim_scores and balance for length somehow, we may be on to something. I am not sure translating each is the right path because of the hours it'll take to run the script. When the evaluators run the script on the test data, it may take too long to be feasible.
+- test_output -- same as similarities, but for 100 observations. Longer texts naturally have higher scores... 

@@ -3,6 +3,20 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="\DELETE_THIS.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\WORDCOUNTS.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\cos_sim_scores.csv">
           <value>
             <Attribute>
@@ -17,6 +31,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\new_word_counts.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\similarities.csv">
           <value>
             <Attribute>
@@ -25,6 +46,20 @@
           </value>
         </entry>
         <entry key="\test_output.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\updated_words.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\word_counts.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
