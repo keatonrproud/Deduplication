@@ -1,6 +1,7 @@
 # EU_Deduplication_Challenge
 IDEAS:
 1) If we can fix the cos_sim_scores from sentence-transformer and balance for length somehow, we may be on to something. When testing on sentences of similar length, in diff languages, it is able to estimate similarities.
+   - If you view the dummy_cos_sim_scores.csv, you will see 5 strings at the bottom and a matrix of similarity scores. The third and fifth strings are not related whatsoever, and appropriately have a negative similarity score. HOWEVER, the fourth sentence is the same as the fifth sentence repeated over and over to have similar length as the fifth and then their similarity score goes up to a ~0.250. Still not a significant similarity, but significantly inflated from before.
 2) Translating all the data to a common language -- I am not sure translating is the right path because of the hours it'll take to run the script. When the evaluators run the script on the test data, it may take too long to be feasible. It also says in the competition description the importance of being able to manage crosslingual data.
    - If we are able to translate them all, can we then create vectors of word counts / frequencies to compare job titles + descriptions?
 3) Are there different models / encoding we should be trying?

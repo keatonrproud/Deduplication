@@ -97,8 +97,11 @@ embedding = load_or_store_pickle_files(strings_to_compare, rows) if rows != len(
 cos_sim_scores = pd.DataFrame(util.cos_sim(embedding, embedding).numpy())
 cos_sim_scores.to_csv("cos_sim_scores.csv")
 
-# create set of all True values to mask the embedding for each round
-mask = torch.ones(len(strings_to_compare)).type(torch.bool)
+
+# create scores for paraphrase_mining for every possible pair of the submitted encodings in embedding variable
+para_mining_scores = pd.DataFrame(util.paraphrase_mining(transformer, semantic_data, top_k=5))
+para_mining_scores.to_csv("para_mining_scores.csv")
+
 
 print(f'it took {time.time() - start} to complete')
 
