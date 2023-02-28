@@ -47,7 +47,7 @@ start = time.time()
 transformer = SentenceTransformer("./transformers/sentence-transformers_paraphrase-multilingual-miniLM-L12-v2",
                                   device='cpu')
 
-# use this if you don't have the transformers downloaded yet
+#### use this if you don't have the transformers downloaded yet
 # transformer = SentenceTransformer("paraphrase-multilingual-miniLM-L12-v2",
 #                                   device='cpu')
 

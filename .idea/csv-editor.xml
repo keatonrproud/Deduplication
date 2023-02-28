@@ -17,21 +17,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\results.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\similarities.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\string_counts.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
