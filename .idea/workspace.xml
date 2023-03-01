@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a8a6ea59-0397-4581-9745-dbd84f3120af" name="Changes" comment="removed overused and meaningless words. determined length is definitely an issue with cosine similarity, but otherwise it works great across languages">
+    <list default="true" id="a8a6ea59-0397-4581-9745-dbd84f3120af" name="Changes" comment="trying to find solution for mismatched text lengths">
+      <change afterPath="$PROJECT_DIR$/outputs/titles_descriptions_cos_sim_scores.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/csv-editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cos_sim_scores.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dummy_cos_sim_scores.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/dummy_cos_sim_scores.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/embeddings/embeddings_10.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/embeddings_test.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lang_detects.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/lang_detects.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/para_mining_scores.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/para_mining_scores.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.py" beforeDir="false" afterPath="$PROJECT_DIR$/script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/similarities.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/similarities.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_output.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/test_output.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +51,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\keato\OneDrive\Documents\Education\Bologna\Year1\EU_Deduplication_Challenge\outputs" />
       <recent name="C:\Users\keato\OneDrive\Documents\Education\Bologna\Year1\EU_Deduplication_Challenge\embeddings" />
     </key>
   </component>
@@ -67,7 +78,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677605192980</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="trying to find solution for mismatched text lengths">
+      <created>1677607977700</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1677607977700</updated>
+    </task>
+    <task id="LOCAL-00004" summary="trying to find solution for mismatched text lengths">
+      <created>1677607989882</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1677607989882</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -84,6 +109,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="cleaned. testing removing frequent/meaningless words" />
     <MESSAGE value="removed overused and meaningless words. determined length is definitely an issue with cosine similarity, but otherwise it works great across languages" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed overused and meaningless words. determined length is definitely an issue with cosine similarity, but otherwise it works great across languages" />
+    <MESSAGE value="trying to find solution for mismatched text lengths" />
+    <option name="LAST_COMMIT_MESSAGE" value="trying to find solution for mismatched text lengths" />
   </component>
 </project>

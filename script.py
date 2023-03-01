@@ -19,9 +19,9 @@ def storing_duplicate_info(dup_data, unique_col, dup_type, list):
             list.append(row)
 
 
-def load_or_store_pickle_files(strings_to_embed, obs: object="all"):
+def load_or_store_pickle_files(strings_to_embed, obs: object = 'all', filename: str = 'title_desc', length: int = 128):
     ### for storing / loading embeddings locally
-    embeddings_file = f'embeddings/embeddings_{obs}.pkl'
+    embeddings_file = f'embeddings/{filename}_{obs}obs_{length}seq.pkl'
     if path.exists(embeddings_file):
         with open(embeddings_file, "rb") as infile:
             embedding = load(infile)['embeddings']
@@ -44,16 +44,17 @@ data.columns = all[0]
 # merge title and description into new column for future analysis
 data['title_description'] = data['title'] + ". " + data['description']
 
-# removing 50 most frequent words -- almost exclusively meaningless words like 'the', 'and', etc.
-words = [f'(?i) {word[0]} ' for word in list(pd.DataFrame(' '.join(data.title_description).split()).value_counts().index) if
-         word not in [" - ", " : ", " ; ", " / ", " . ", " , "]]
-to_replace = dict.fromkeys(words[0:50] + ["(?i)\\*", "(?i)https:\\/\\/", "(?i)http:\\/\\/"], " ")
-
-data['title_description'] = \
-    data['title_description'].replace(to_replace, regex=True)
+# TODO: after adjusting for length, see if this makes a noticeable difference
+## removing 50 most frequent words -- meaningless words like 'the', 'and', etc. -- (?i) makes not case-sensitive
+# words = [f'(?i) {word[0]} ' for word in list(pd.DataFrame(' '.join(data.title_description).split()).value_counts().index) if
+#          word not in [" - ", " : ", " ; ", " / ", " . ", " , "]]
+# to_replace = dict.fromkeys(words[0:50] + ["(?i)\\*", "(?i)https:\\/\\/", "(?i)http:\\/\\/"], " ")
+#
+# data['title_description'] = \
+#     data['title_description'].replace(to_replace, regex=True)
 
 ## ----------------------------------------------------------------------
-# find FULL DUPLICATES based on title and description
+# find FULL DUPLICATES based on certain categories
 # TODO: change the categories used to determine duplicates -- include location, country_name?
 # create full_dups based on all observations who are or have a duplicate based on selected columns
 data['full_dups'] = data.duplicated(subset=['title', 'description'], keep=False)
@@ -76,35 +77,27 @@ transformer = SentenceTransformer("./transformers/sentence-transformers_paraphra
                                   device='cpu')
 #### use this if you don't have the transformers downloaded yet
 # transformer = SentenceTransformer("paraphrase-multilingual-miniLM-L12-v2", device='cpu')
-transformer.max_seq_length = 512
-
-# remove unhelpful words to increase valuable info in the encodings and increase accuracy of scores
-unique_data.replace(" the ", " ", regex=True, inplace=True)
+transformer.max_seq_length = 128
 
 # build data for text similarity analysis
-semantic_data = unique_data.head(10)
-strings_to_compare = semantic_data['title_description'].values.tolist()
+semantic_data = unique_data.head(100)
+texts = semantic_data['title_description'].values.tolist()
 
 # load from local pickle file with embeddings, and if it doesn't exist then create one for future use
 rows = len(semantic_data)
-embedding = load_or_store_pickle_files(strings_to_compare, rows) if rows != len(unique_data) else load_or_store_pickle_files(strings_to_compare)
+embeds = load_or_store_pickle_files(texts, rows, length=transformer.max_seq_length) if rows != len(unique_data) \
+    else load_or_store_pickle_files(texts, length=transformer.max_seq_length)
 
-pd.DataFrame(embedding).to_csv("embeddings_test.csv")
 
 # create the cos_sim_scores for every possible pair of the submitted encodings in embedding variable
-cos_sim_scores = pd.DataFrame(util.cos_sim(embedding, embedding).numpy())
-cos_sim_scores.to_csv("cos_sim_scores.csv")
-
-
-# create scores for paraphrase_mining for every possible pair of the submitted encodings in embedding variable
-para_mining_scores = pd.DataFrame(util.paraphrase_mining(transformer, strings_to_compare, top_k=5))
-para_mining_scores.to_csv("para_mining_scores.csv")
+cos_sim_scores = pd.DataFrame(util.cos_sim(embeds, embeds).numpy())
+cos_sim_scores.to_csv("outputs/cos_sim_scores.csv")
 
 
 print(f'it took {time.time() - start} to complete')
 
 # add semantic duplicate ids into list
-# TODO: create bag of words and compare percentages of words that are the same in each advertisement after translating?
+# TODO: translate, then create bag of words and compare percentages of words that are the same in each description?
 # TODO: those with between ~0.85 and 0.99 similarity, same/diff company name, same dates posted / retrieval dates
 
 ## -----------------------------------------------------------------------
