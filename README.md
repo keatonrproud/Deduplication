@@ -14,6 +14,7 @@ IDEAS:
 5) Worth trying to not normalize the embeddings?
 6) Use the title as an initial query for all descriptions, then if there's a high similarity match then compare descripition vs description?
    - Titles aren't even similar to their own job descriptions... -- see titles_descriptions_cos_sim_scores.csv for chart of first 50 titles (each row is for a title) and first 100 descriptions (each column is for a description). Most titles are not related to their own descriptions, so don't think they're a good predictor of similarity for other ads
+7) The first submission had a 0.15 for full duplicates, meaning either precision and/or recall were less than 1 (either too many guesses, or not enough guesses). But I used the minimum criteria (just title and description perfectly match). Meanwhile, the 'non-duplicates' stayed at 1.0 -- logically, this should mean all the guesses that I submitted are some type(s) of duplicates! We will need to ensure they're all classified somehow -- but clearly there's a chunk that are not full duplicates. When we create our more specific full-duplicates list, we will have to make sure those not on it anymore are classified elsewhere.
 
 INSTALLATION:
 1) Download the data (available from the competition website in 'Participate') -- it is called wi_dataset.csv. Save it to the same folder as the script.

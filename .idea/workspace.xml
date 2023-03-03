@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a8a6ea59-0397-4581-9745-dbd84f3120af" name="Changes" comment="trying to find solution for mismatched text lengths">
-      <change afterPath="$PROJECT_DIR$/outputs/titles_descriptions_cos_sim_scores.csv" afterDir="false" />
+    <list default="true" id="a8a6ea59-0397-4581-9745-dbd84f3120af" name="Changes" comment="solving length problems">
       <change beforePath="$PROJECT_DIR$/.idea/csv-editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cos_sim_scores.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dummy_cos_sim_scores.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/dummy_cos_sim_scores.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/embeddings/embeddings_10.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/embeddings_test.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lang_detects.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/lang_detects.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/para_mining_scores.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/para_mining_scores.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script.py" beforeDir="false" afterPath="$PROJECT_DIR$/script.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/similarities.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/similarities.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_output.csv" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/test_output.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,16 +31,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/keato/OneDrive/Documents/GitHub/ML_classifier_comparison/scripts/visualizations.py",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/keato/OneDrive/Documents/Education/Bologna/Year1/EU_Deduplication_Challenge&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\keato\OneDrive\Documents\Education\Bologna\Year1\EU_Deduplication_Challenge" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\keato\OneDrive\Documents\Education\Bologna\Year1\EU_Deduplication_Challenge\outputs" />
       <recent name="C:\Users\keato\OneDrive\Documents\Education\Bologna\Year1\EU_Deduplication_Challenge\embeddings" />
@@ -92,7 +87,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677607989882</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="solving length problems">
+      <created>1677666369378</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1677666369378</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -110,6 +112,7 @@
     <MESSAGE value="cleaned. testing removing frequent/meaningless words" />
     <MESSAGE value="removed overused and meaningless words. determined length is definitely an issue with cosine similarity, but otherwise it works great across languages" />
     <MESSAGE value="trying to find solution for mismatched text lengths" />
-    <option name="LAST_COMMIT_MESSAGE" value="trying to find solution for mismatched text lengths" />
+    <MESSAGE value="solving length problems" />
+    <option name="LAST_COMMIT_MESSAGE" value="solving length problems" />
   </component>
 </project>
