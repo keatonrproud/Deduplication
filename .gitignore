@@ -1,3 +1,5 @@
 venv\
 /wi_dataset.csv
 transformers/
+*.pkl
+*.h5
