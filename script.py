@@ -7,8 +7,8 @@ from os import path
 import time
 import cohere
 from sentence_transformers import util
-from memory_profiler import profile
-import gc
+
+pd.options.mode.chained_assignment = None
 
 
 class Dedup:
@@ -17,24 +17,18 @@ class Dedup:
         # load data for the project
         data = self.set_up_data()
 
-        print('data loaded')
-
         # build empty list to store all duplicates in prior to writing results to csv
         all_dups = []
 
         # find and store FULL DUPLICATES -- observations who are or have a duplicate based on the selected columns
         cols_for_full_dups = ['title', 'description']
         full_dups = self.find_full_dups(data, cols_for_full_dups)
+        #TODO: check length of full_dups
         self.store_full_duplicates(full_dups, cols_for_full_dups, all_dups)
-
-        print('full dups stored')
-
 
         # create df of all unique observations for future analysis (ie keep only one of each full duplicate)
         unique_data = self.create_unique_df(data) if row_num == 0 else self.create_unique_df(data).head(row_num)
-
-        print('unique data ready')
-
+        #TODO: check length of unique data
 
         # get texts to compare for similarity analysis
         titles = unique_data['title'].values.tolist()
@@ -44,34 +38,18 @@ class Dedup:
         title_embeds = self.load_or_store_embeddings(titles, obs=len(titles), filename='title', length=512)
         desc_embeds = self.load_or_store_embeddings(descriptions, obs=len(descriptions), filename='desc', length=512)
 
-        print('embeds loaded')
+        unique_data_scores, possible_dups = self.get_possible_duplicates([title_embeds, desc_embeds],
+                                                                         unique_data=unique_data,
+                                                                         new_scores=new_scores)
+
+        # TODO: check between possible_dups to compare dates (diff = temporal, same = semantic), with title > 0.9
+        # TODO: only those with same company are duplicates? I think so?
+        # TODO: partial -- > 0.9 title, but lower description match? same company still?
+        # TODO: check if full duplicates with just title/description is the same as including company name / location
+        # TODO: implement removing meaningless / overfrequent words
 
 
-        # if no filename for scores entered, create new scores and store appropriately
-        top_scores = []
-        for embeddings in title_embeds, desc_embeds:
-            info_type = 'title' if embeddings == title_embeds else 'desc'
-            filename = f'outputs/top_scores_{info_type}_{len(embeddings)}rows.h5'
-            if new_scores or not path.exists(filename):
-                top_scores.append(self.store_cos_sim_scores(embeddings, info_type=info_type))
-            else:
-                top_scores.append(pd.read_hdf(filename))
-            del embeddings
-        del data
-
-        print('scores created/stored or read-in')
-
-        # ensure indices align between dataframes, then combine by column
-        top_scores[0] = top_scores[0].add_prefix('title_')
-        top_scores[1] = top_scores[1].add_prefix('desc_')
-
-        for df in top_scores:
-            df.index = unique_data.index
-
-        unique_data_scores = pd.concat([unique_data, top_scores[0], top_scores[1]], axis=1)
-
-        print(unique_data_scores)
-        unique_data_scores.to_csv("outputs/unique_data_scores.csv")
+        possible_dups.to_csv("outputs/possible_dups.csv")
 
 
         # export all_dups list to csv for final results
@@ -80,7 +58,6 @@ class Dedup:
     # TODO: account for the few rows that I manually fixed in the original data file?
 
     @staticmethod
-    @profile
     def set_up_data():
         # read in datafile
         with open("wi_dataset.csv", encoding='utf-8') as infile:
@@ -93,7 +70,6 @@ class Dedup:
         return data
 
     @staticmethod
-    @profile
     def find_full_dups(all_data, dup_cols: list):
         all_data['full_dups'] = all_data.duplicated(subset=dup_cols, keep=False)
         full_dups = all_data[all_data['full_dups'] == True].copy()
@@ -103,7 +79,6 @@ class Dedup:
         return full_dups
 
     @staticmethod
-    @profile
     def store_full_duplicates(dup_list, dup_cols, container: list):
         dup_list['full_dup_string'] = dup_list[dup_cols[0]]
         for col in dup_cols[1:]:
@@ -133,16 +108,14 @@ class Dedup:
                 container.append(pair)
 
     @staticmethod
-    @profile
     def create_unique_df(all_data):
         # remove full duplicates from data, only keep unique observations for future duplicate identification
         unique_data = all_data[all_data['full_dups'] == False].copy()
 
         return unique_data
 
-    @classmethod
-    @profile
-    def load_or_store_embeddings(cls, strings_to_embed, obs: int, filename: str = 'details', length: int = 512):
+    @staticmethod
+    def load_or_store_embeddings(strings_to_embed, obs: int, filename: str = 'details', length: int = 512):
         ### for storing / loading embeddings locally
         embeddings_file = f'embeddings/cohere_{filename}_{obs}obs_{length}seq.pkl'
         if path.exists(embeddings_file):
@@ -150,18 +123,27 @@ class Dedup:
                 embedding = load(infile)['embeddings']
         else:
             co = cohere.Client("ho80SX8n3y7ANbv44gATQ61Zfe7KvnYoqqKSp6H5")
-            if obs < 15000:
+            if obs < 9000:
                 embedding = co.embed(texts=strings_to_embed).embeddings
             else:
                 embedding = []
                 chunk_val = 9000
                 for curr_index in range(0, obs, chunk_val):
-                    print(curr_index)
-                    end = curr_index + chunk_val if curr_index + chunk_val < obs else obs
-                    partial = co.embed(texts=strings_to_embed[curr_index:end]).embeddings
-                    embedding += partial
-                    del partial
-                    gc.collect()
+                    for _ in range(3):
+                        # TODO: check last 9000 rows compared with first 9000 -- are they the same ???? wtf
+                        try:
+                            start_embedding = time.time()
+                            end = curr_index + chunk_val if curr_index + chunk_val < obs else obs
+                            print(f'currently embedding rows {curr_index} to {end}')
+                            partial = co.embed(texts=strings_to_embed[curr_index:end]).embeddings
+                            embedding += partial
+                            del partial
+                            print(f'this embedding took {time.time() - start_embedding}')
+                            break
+                        except Exception as e:
+                            print(e)
+                            print("Retrying now after a 1-minute wait.")
+                            time.sleep(60)
                     time.sleep(40)
             with open(embeddings_file, "wb") as outfile:
                 dump({'embeddings': embedding}, outfile, protocol=HIGHEST_PROTOCOL)
@@ -169,7 +151,6 @@ class Dedup:
         return embedding
 
     @staticmethod
-    @profile
     def store_cos_sim_scores(embeddings, info_type: str, chunk_val: int = 12000):
         row_num = len(embeddings)
         if row_num < chunk_val:
@@ -204,9 +185,41 @@ class Dedup:
 
         return top_scores
 
+    def get_possible_duplicates(self, embeddings: list, unique_data, new_scores: bool):
+        # if no filename for scores entered, create new scores and store appropriately
+        top_scores = []
+        for embedding in embeddings:
+            info_type = 'title' if embedding == embeddings[0] else 'desc'
+            filename = f'outputs/top_scores_{info_type}_{len(embedding)}rows.h5'
+            if new_scores or not path.exists(filename):
+                top_scores.append(self.store_cos_sim_scores(embedding, info_type=info_type))
+            else:
+                top_scores.append(pd.read_hdf(filename))
+            del embedding
+
+        print('scores created/stored or read-in')
+
+        # ensure indices align between dataframes, then combine by column
+        top_scores[0] = top_scores[0].add_prefix('title_')
+        top_scores[1] = top_scores[1].add_prefix('desc_')
+
+        for df in top_scores:
+            df.index = unique_data.index
+
+        unique_data_scores = pd.concat([unique_data, top_scores[0], top_scores[1]], axis=1)
+
+        unique_data_scores.to_csv("outputs/unique_data_scores.csv")
+
+        title_cols = top_scores[0].columns
+        desc_cols = top_scores[1].columns
+
+        possible_dups = unique_data_scores[
+            (((unique_data_scores[title_cols] < 1) & (unique_data_scores[title_cols] > 0.9)).any(axis=1) &
+             ((unique_data_scores[desc_cols] < 1) & (unique_data_scores[desc_cols] > 0.9)).any(axis=1))]
+
+        return unique_data_scores, possible_dups
 
     @staticmethod
-    @profile
     def write_dups_to_csv(duplicate_list):
         with open('duplicates.csv', 'w', newline='') as outfile:
             writer = csv.writer(outfile)
@@ -216,21 +229,13 @@ class Dedup:
 
 # -----------------------------------------------------------------------
 # find SEMANTIC DUPLICATES -- only expressed differently in natural language or in different languages
-# TODO: split title/description similarity scores
-# TODO: add top similarity scores to dataframe
-# TODO: those with between ~0.85 and 0.99 similarity, same/diff company name, same dates posted / retrieval dates
-# TODO: there are some high similarity ads where the description is the exact same, but title is different!! need to identify these and figure out where to classify them
-# TODO: remove from unique_data the 'full_dups' that were kept in as unique rows before adding to duplicate list for csv
 
 # find TEMPORAL DUPLICATES -- semantic duplicates, but also different advertisement retrieval / vacancy expired date
-# TODO: find obs in full dups or same range as semantic dups, but with different ad retrieval or dates posted
 
 # find PARTIAL DUPLICATES -- describe same position, but don't contain all the same elements
-# TODO: compare 'matches' of between 0.75 and .85 and between 0.85-0.99... Which better match the given criteria?
 
 if __name__ == "__main__":
     # build class with Cohere client and init all model functions
-    pd.options.mode.chained_assignment = None
     start = time.time()
-    d = Dedup(new_scores=False, row_num=200)
+    d = Dedup(new_scores=True, row_num=200)
     print(f'{round((time.time() - start)/60, 2)} mins required')
