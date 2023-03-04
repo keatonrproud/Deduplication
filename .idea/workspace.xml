@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a8a6ea59-0397-4581-9745-dbd84f3120af" name="Changes" comment="new outputs -- re-formatted script and now connecting similarity metric scores with data to filter duplication types">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/csv-editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/embeddings/title_desc_100obs_128seq.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/duplicates.csv" beforeDir="false" afterPath="$PROJECT_DIR$/duplicates.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raw_scores.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/script.py" beforeDir="false" afterPath="$PROJECT_DIR$/script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/top_scores.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
