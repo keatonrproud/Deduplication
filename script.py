@@ -25,7 +25,7 @@ class Dedup:
         # find and store FULL DUPLICATES -- observations who are or have a duplicate based on the selected columns
         cols_for_full_dups = ['title', 'description']
         full_dups = self.find_full_dups(data, cols_for_full_dups)
-        self.store_full_duplicates(full_dups, all_dups)
+        self.store_full_duplicates(full_dups, cols_for_full_dups, all_dups)
 
         print('full dups stored')
 
@@ -108,17 +108,29 @@ class Dedup:
         dup_list['full_dup_string'] = dup_list[dup_cols[0]]
         for col in dup_cols[1:]:
             dup_list['full_dup_string'] = dup_list['full_dup_string']+dup_list[col]
+
         for string in dup_list['full_dup_string'].unique():
             # create df of all the matches with a test_description duplicate of the current test_desc value
             matches = dup_list[dup_list['full_dup_string'] == string]
 
-            # get the first (and therefore lowest) id value of the set of all duplicates matching the current test_desc
-            lowest_id_dup = matches['id'].unique()[0]
+            # # get the first (and therefore lowest) id value of the set of all duplicates matching the current test_desc
+            # lowest_id_dup = matches['id'].unique()[0]
+            #
+            # # store all id's that aren't the lowest using the lowest as the first col, current as second, and "FULL" as type
+            # for curr_id in matches['id'].unique()[1:]:
+            #     row = [lowest_id_dup, curr_id, "FULL"]
+            #     container.append(row)
 
-            # store all id's that aren't the lowest using the lowest as the first col, current as second, and "FULL" as type
-            for curr_id in matches['id'].unique()[1:]:
-                row = [lowest_id_dup, curr_id, "FULL"]
-                container.append(row)
+            # get list of ids of the duplicates
+            dup_ids = list(matches['id'].unique())
+
+            if len(dup_ids) % 2 != 0:
+                dup_ids.insert(-2, dup_ids[-2])
+
+            id_pairs = [[dup_ids[x], dup_ids[x + 1], "FULL"] for x in range(0, len(dup_ids), 2)]
+
+            for pair in id_pairs:
+                container.append(pair)
 
     @staticmethod
     @profile

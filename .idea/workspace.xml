@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a8a6ea59-0397-4581-9745-dbd84f3120af" name="Changes" comment="new outputs -- re-formatted script and now connecting similarity metric scores with data to filter duplication types">
-      <change beforePath="$PROJECT_DIR$/.idea/csv-editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-editor.xml" afterDir="false" />
+    <list default="true" id="a8a6ea59-0397-4581-9745-dbd84f3120af" name="Changes" comment="gets rated scores, by title and by description, for each observation. Not sure how to separate full duplicates further (or less).">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/duplicates.csv" beforeDir="false" afterPath="$PROJECT_DIR$/duplicates.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raw_scores.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/script.py" beforeDir="false" afterPath="$PROJECT_DIR$/script.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/top_scores.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677884094971</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="gets rated scores, by title and by description, for each observation. Not sure how to separate full duplicates further (or less).">
+      <created>1677941991235</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1677941991235</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -131,6 +135,7 @@
     <MESSAGE value="trying to find solution for mismatched text lengths" />
     <MESSAGE value="solving length problems" />
     <MESSAGE value="new outputs -- re-formatted script and now connecting similarity metric scores with data to filter duplication types" />
-    <option name="LAST_COMMIT_MESSAGE" value="new outputs -- re-formatted script and now connecting similarity metric scores with data to filter duplication types" />
+    <MESSAGE value="gets rated scores, by title and by description, for each observation. Not sure how to separate full duplicates further (or less)." />
+    <option name="LAST_COMMIT_MESSAGE" value="gets rated scores, by title and by description, for each observation. Not sure how to separate full duplicates further (or less)." />
   </component>
 </project>
