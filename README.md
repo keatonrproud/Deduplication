@@ -1,6 +1,6 @@
 # Deduplication Challenge
 
-Below is not organized whatsoever. Feel free to explore or send your thoughts.
+This repo is not organized or maintained. Feel free to explore or send your thoughts.
 
 IDEAS:
 1) If we can fix the cos_sim_scores from sentence-transformer and balance for length somehow, we may be on to something. When testing on sentences of similar length, in diff languages, it is able to estimate similarities.
