@@ -203,7 +203,7 @@ class Dedup:
                 with open(embeddings_file, "rb") as infile:
                     return load(infile)['embeddings']
         else:
-            co = cohere.Client("ho80SX8n3y7ANbv44gATQ61Zfe7KvnYoqqKSp6H5")
+            co = cohere.Client("")
             if obs < embed_chunksize:
                 return co.embed(texts=strings_to_embed).embeddings
             else:
