@@ -1,4 +1,4 @@
-# EU_Deduplication_Challenge
+# Mess of a Deduplication Challenge
 IDEAS:
 1) If we can fix the cos_sim_scores from sentence-transformer and balance for length somehow, we may be on to something. When testing on sentences of similar length, in diff languages, it is able to estimate similarities.
    - WITH THE DEFAULT MAX EMBEDDING SEQUENCE LENGTH, IT WORKS! BUT WITH THE EXTENDED MAX SEQUENCE LENGTH OF 512 (FOR LONG TEXTS), IT DOES NOT WORK AS WELL... Look at the cos_sim_scores.csv for diff seq numbers (indicating diff seq lengths) to see the inflated numbers. I think we should try the below options
